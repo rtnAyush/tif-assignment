@@ -9,8 +9,10 @@ import {
   interviewLanguageOptions,
   interviewModeOptions,
 } from "./constants";
+import { useData } from "./DataProvider";
 
 const InterviewDetailsForm: React.FC = () => {
+  const { state: { interviewSettings }, setState } = useData()!;
   const {
     errors,
     touched,
@@ -20,15 +22,28 @@ const InterviewDetailsForm: React.FC = () => {
     setFieldValue,
   } = useFormik<IInterViewSettings>({
     initialValues: {
-      interviewMode: "",
-      interviewDuration: "",
-      interviewLanguage: "",
+      interviewMode: interviewSettings.interviewMode || "",
+      interviewDuration: interviewSettings.interviewDuration || "",
+      interviewLanguage: interviewSettings.interviewLanguage || "",
     },
     onSubmit: (values) => {
       console.log({ values });
       alert("Form successfully submitted");
     },
   });
+
+  const handleFieldChange = (name: string, value: string) => {
+    setFieldValue(name, value);  // Updates Formik's state
+
+    // Updates the context state in real time
+    setState((prev) => ({
+      ...prev,
+      interviewSettings: {
+        ...prev.interviewSettings,
+        [name]: value,
+      },
+    }));
+  };
 
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
@@ -38,7 +53,7 @@ const InterviewDetailsForm: React.FC = () => {
           placeholder="Select interview mode"
           name="interviewMode"
           options={interviewModeOptions}
-          onChange={setFieldValue}
+          onChange={handleFieldChange}
           onBlur={setFieldTouched}
           value={values?.interviewMode}
           error={errors?.interviewMode}
@@ -49,7 +64,7 @@ const InterviewDetailsForm: React.FC = () => {
           placeholder="Select interview duration"
           name="interviewDuration"
           options={interviewDurationOptions}
-          onChange={setFieldValue}
+          onChange={handleFieldChange}
           onBlur={setFieldTouched}
           value={values?.interviewDuration}
           error={errors?.interviewDuration}
@@ -60,7 +75,7 @@ const InterviewDetailsForm: React.FC = () => {
           name="interviewLanguage"
           placeholder="Select interview language"
           options={interviewLanguageOptions}
-          onChange={setFieldValue}
+          onChange={handleFieldChange}
           onBlur={setFieldTouched}
           error={errors.interviewLanguage}
           touched={touched.interviewLanguage}

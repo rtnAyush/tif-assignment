@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 
 const initialValues = {
+  pageNumber: 0,
   requisitionDetails: {
     gender: "",
     noOfOpenings: 0,
