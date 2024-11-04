@@ -26,15 +26,11 @@ const CustomTab: React.FC<TabProps> = ({ children, ...props }) => {
 };
 
 const HomeLayout = () => {
-  const { state: { pageNumber, requisitionDetails, jobDetails, interviewSettings }, setState } = useData()!;
+  const { state: { pageNumber, requisitionDetails, jobDetails }, setState } = useData()!;
 
   const handleTabChange = (index: number) => {
-    // setCurrentTabIndex(index);
     setState(prev => ({ ...prev, pageNumber: index }))
   };
-
-  console.log(requisitionDetails);
-
 
   return (
     <Box w="100%">
@@ -45,8 +41,8 @@ const HomeLayout = () => {
         <Tabs isLazy index={pageNumber} onChange={handleTabChange}>
           <TabList>
             <CustomTab>Requistion Details</CustomTab>
-            <CustomTab>Job Details</CustomTab>
-            <CustomTab>Interview Settings</CustomTab>
+            <CustomTab isDisabled={!requisitionDetails.requisitionTitle || !requisitionDetails.noOfOpenings || !requisitionDetails.gender || !requisitionDetails.urgency}>Job Details</CustomTab>
+            <CustomTab isDisabled={!jobDetails.jobTitle || !jobDetails.jobLocation || !jobDetails.jobDetails}>Interview Settings</CustomTab>
           </TabList>
           <Grid display="grid" gridTemplateColumns="3fr 2fr" gap="24px">
             <TabPanels>

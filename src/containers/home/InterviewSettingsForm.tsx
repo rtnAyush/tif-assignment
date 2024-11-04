@@ -97,7 +97,7 @@ const InterviewDetailsForm: React.FC = () => {
           <Button colorScheme="gray" type="button" onClick={prevTab}>
             Previous
           </Button>
-          <Button colorScheme="red" type="submit">
+          <Button colorScheme="red" type="submit" isDisabled={!interviewSettings.interviewDuration || !interviewSettings.interviewLanguage || !interviewSettings.interviewMode}>
             Submit
           </Button>
         </Flex>
