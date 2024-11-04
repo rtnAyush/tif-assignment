@@ -50,6 +50,13 @@ const InterviewDetailsForm: React.FC = () => {
     }));
   };
 
+  const prevTab = () => {
+    setState(prev => ({
+      ...prev,
+      pageNumber: prev.pageNumber > 0 ? prev.pageNumber - 1 : prev.pageNumber
+    }))
+  }
+
   return (
     <Box width="100%" as="form" onSubmit={handleSubmit as any}>
       <Box width="100%">
@@ -87,7 +94,7 @@ const InterviewDetailsForm: React.FC = () => {
           value={values.interviewLanguage}
         />
         <Flex w="100%" justify="flex-end" mt="4rem" gap="20px">
-          <Button colorScheme="gray" type="button">
+          <Button colorScheme="gray" type="button" onClick={prevTab}>
             Previous
           </Button>
           <Button colorScheme="red" type="submit">
