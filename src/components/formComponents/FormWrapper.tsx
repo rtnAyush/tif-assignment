@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   FormErrorMessage,
@@ -27,10 +27,11 @@ const FromWrapper: React.FC<IFormWrapperProps> = ({
   wrapperProps = {},
   touched,
 }) => {
+  const [isClick, setIsClick] = useState(false);
   return (
     <FormControl width="100%" mb="24px" isInvalid={isInvalid} {...wrapperProps}>
       {label && <FormLabel>{label}</FormLabel>}
-      <InputGroup width="100%" alignItems="center">
+      <InputGroup width="100%" alignItems="center" onSelect={() => setIsClick(!isClick)} style={{ position: "relative", zIndex: isClick ? 2 : 1 }} >
         {children}
       </InputGroup>
       {error && touched && (
